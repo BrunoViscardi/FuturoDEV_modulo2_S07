@@ -5,7 +5,7 @@ const Professor = connection.define("professores", {
     nome: {
         type: DataTypes.STRING
     },
-    duracao: {
+    cursoID: {
         type: DataTypes.INTEGER,
         references: {
             model: 'cursos',
