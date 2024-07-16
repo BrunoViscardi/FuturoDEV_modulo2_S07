@@ -118,25 +118,25 @@ class ProfessorController {
 
 
 
-    // async deletar(request, response) {
-    //     try {
-    //         const id = request.params.id
-    //         const professor = await Professor.findByPk(id)
+    async deletar(request, response) {
+        try {
+            const id = request.params.id
+            const professor = await Professor.findByPk(id)
 
-    //         if (!professor) {
-    //             response.status(404).json({ mensagem: 'Não foi encontrado o professor' })
-    //         }
+            if (!professor) {
+                response.status(404).json({ mensagem: 'Não foi encontrado o professor' })
+            }
 
-    //         await professor.destroy()
+            await professor.destroy()
 
-    //         response.status(204).json()
+            response.status(204).json()
 
-    //     } catch (error) {
-    //         response.status(500).json({
-    //             mensagem: 'Houve um erro ao deletar o professor'
-    //         })
-    //     }
-    // }
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao deletar o professor'
+            })
+        }
+    }
 
 
 
