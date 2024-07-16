@@ -85,37 +85,36 @@ class ProfessorController {
 
 
 
-    // async atualizar(request, response) {
-    //     try {
-    //         const id = request.params.id
-    //         const dados = request.body
+    async atualizar(request, response) {
+        try {
+            const id = request.params.id
+            const dados = request.body
 
-    //         const professor = await Professor.findByPk(id)
+            const professor = await Professor.findByPk(id)
 
-    //         if (!professor) {
-    //             response.status(404).json({ mensagem: 'Não foi encontrado o professor' })
-    //         }
+            if (!professor) {
+                response.status(404).json({ mensagem: 'Não foi encontrado o professor' })
+            }
 
-    //         //Validação: Duração é um numero inteiro
-    //         if (dados.cursoID && !Number.isInteger(dados.cursoID)) {
-    //             return response.status(400).json({
-    //                 mensagem: 'A Duração do professor deve ser um número inteiro'
-    //             })
-    //         }
+            //Validação se existe id de curso cadastrado
+            const cursoExistente = await Curso.findByPk(dados.cursoID);
+            if (dados.cursoID && !cursoExistente) {
+                return response.status(400).json({ mensagem: 'Insira um ID de curso válido' });
+            }
 
 
-    //         professor.nome = dados.nome
-    //         professor.cursoID = dados.cursoID
-    //         await professor.save()
+            professor.nome = dados.nome
+            professor.cursoID = dados.cursoID
+            await professor.save()
 
-    //         response.status(200).json({ mensagem: 'Atualizado com sucesso' })
+            response.status(200).json({ mensagem: 'Atualizado com sucesso' })
 
-    //     } catch (error) {
-    //         response.status(500).json({
-    //             mensagem: 'Houve um erro ao atualizar o professor'
-    //         })
-    //     }
-    // }
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao atualizar o professor'
+            })
+        }
+    }
 
 
 
