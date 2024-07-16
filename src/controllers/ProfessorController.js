@@ -1,5 +1,6 @@
 const Professor = require("../models/Professor")
-const Curso= require("../models/Curso")
+const Curso = require("../models/Curso")
+
 
 
 class ProfessorController {
@@ -35,53 +36,52 @@ class ProfessorController {
 
 
 
-    // async listar(request, response) {
-    //     try {
-    //         const dados = request.query;
+    async listar(request, response) {
+        try {
+            const dados = request.query;
 
-    //         //Listar por filtragem de busca
-    //         if (dados && (dados.nome || dados.duracao)) {
-    //             if (dados.nome && dados.duracao) {
-    //                 const professor = await Professor.findOne({
-    //                     where: {
-    //                         nome: dados.nome,
-    //                         duracao: dados.duracao
-    //                     }
-    //                 });
+            //Listar por filtragem de busca por nome
+            if (dados && (dados.nome || dados.cursoID)) {
+                if (dados.nome) {
+                    const professor = await Professor.findAll({
+                        where: {
+                            nome: dados.nome
+                        }
+                    });
 
-    //                 if (!professor) {
-    //                     return response.status(400).json({
-    //                         mensagem: 'Não foi encontrado um professor com esse nome e duração'
-    //                     });
-    //                 }
+                    if (!professor) {
+                        return response.status(400).json({
+                            mensagem: 'Não foi encontrado um professor com esse nome'
+                        });
+                    }
 
-    //                 return response.json(professor);
-    //             } else {
-    //                 return response.status(400).json({
-    //                     mensagem: 'Nome e duração são necessários para a busca'
-    //                 });
-    //             }
-    //         } else {
+                    return response.json(professor);
+                } else {
+                    return response.status(400).json({
+                        mensagem: 'Só é possível filtrar a pesquisa pelo Nome'
+                    });
+                }
+            } else {
 
-    //             //Listar todos sem filtragem
-    //             const professores = await Professor.findAll({
-    //                 attributes: [
-    //                     ['id', 'identificador'],
-    //                     'nome',
-    //                     'duracao'
-    //                 ],
-    //                 order: [['duracao', 'DESC']]
-    //             });
-    //             response.json(professores);
-    //         }
+                //Listar todos sem filtragem
+                const professores = await Professor.findAll({
+                    attributes: [
+                        ['id', 'identificador'],
+                        'nome',
+                        'cursoID'
+                    ],
+                    order: [['cursoID', 'ASC']]
+                });
+                response.json(professores);
+            }
 
-    //     } catch (error) {
-    //         console.error('Erro ao listar os professores:', error);
-    //         response.status(500).json({
-    //             mensagem: 'Houve um erro ao listar os professores'
-    //         });
-    //     }
-    // }
+        } catch (error) {
+            console.error('Erro ao listar os professores:', error);
+            response.status(500).json({
+                mensagem: 'Houve um erro ao listar os professores'
+            });
+        }
+    }
 
 
 
@@ -97,15 +97,15 @@ class ProfessorController {
     //         }
 
     //         //Validação: Duração é um numero inteiro
-    //         if (dados.duracao && !Number.isInteger(dados.duracao)) {
+    //         if (dados.cursoID && !Number.isInteger(dados.cursoID)) {
     //             return response.status(400).json({
     //                 mensagem: 'A Duração do professor deve ser um número inteiro'
     //             })
     //         }
-            
+
 
     //         professor.nome = dados.nome
-    //         professor.duracao = dados.duracao
+    //         professor.cursoID = dados.cursoID
     //         await professor.save()
 
     //         response.status(200).json({ mensagem: 'Atualizado com sucesso' })
@@ -141,7 +141,7 @@ class ProfessorController {
 
 
 
-    
+
 
 
 }
