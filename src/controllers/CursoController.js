@@ -116,6 +116,30 @@ class CursoController {
         }
     }
 
+
+
+    async deletar(request, response) {
+        try {
+            const id = request.params.id
+            const curso = await Curso.findByPk(id)
+
+            if (!curso) {
+                response.status(404).json({ mensagem: 'Não foi encontrado o curso' })
+            }
+
+            await curso.destroy()
+
+            response.status(204).json()
+
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao deletar o curso'
+            })
+        }
+    }
+
+
+
     
 
 
