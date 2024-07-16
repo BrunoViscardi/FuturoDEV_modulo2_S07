@@ -82,6 +82,40 @@ class CursoController {
         }
     }
 
+
+
+    async atualizar(request, response) {
+        try {
+            const id = request.params.id
+            const dados = request.body
+
+            const curso = await Curso.findByPk(id)
+
+            if (!curso) {
+                response.status(404).json({ mensagem: 'Não foi encontrado o curso' })
+            }
+
+            //Validação: Duração é um numero inteiro
+            if (dados.duracao && !Number.isInteger(dados.duracao)) {
+                return response.status(400).json({
+                    mensagem: 'A Duração do curso deve ser um número inteiro'
+                })
+            }
+            
+
+            curso.nome = dados.nome
+            curso.duracao = dados.duracao
+            await curso.save()
+
+            response.status(200).json({ mensagem: 'Atualizado com sucesso' })
+
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao atualizar o curso'
+            })
+        }
+    }
+
     
 
 
