@@ -32,6 +32,26 @@ class CursoController {
         }
     }
 
+
+
+    async listarTodos(request, response) {
+        try {
+            const cursos = await Curso.findAll({
+                attributes: [
+                    ['id', 'identificador'],
+                    'nome',
+                    'duracao'
+                ],
+                order: [['duracao', 'DESC']]
+            })
+            response.json(cursos)
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao listar os cursos'
+            })
+        }
+    }
+
     
 }
 
