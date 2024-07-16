@@ -4,7 +4,8 @@ const CursoController = require('../controllers/CursoController')
 const cursosRoutes = new Router()
 
 cursosRoutes.post('/', CursoController.criar)
-cursosRoutes.get('/', CursoController.listarTodos)
+cursosRoutes.get('/', CursoController.listar)
+
 
 
 module.exports = cursosRoutes
